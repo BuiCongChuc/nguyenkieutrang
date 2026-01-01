@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Sinh Nhật Trang 🎉</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #FF6B9D;
+            --secondary-purple: #C44569;
+            --accent-blue: #A8E6CF;
+            --accent-yellow: #FFD93D;
+            --soft-peach: #FFC4D6;
+            --bg-cream: #FFF5F7;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--bg-cream) 0%, #FFE5EC 50%, #FFF0F5 100%);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #FFB6C1 0%, #FFC0CB 50%, #FFD6E8 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 1s ease-out, visibility 1s ease-out;
+            cursor: pointer;
+        }
+
+        #splash-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-image-container {
+            position: relative;
+            width: 90%;
+            max-width: 500px;
+            aspect-ratio: 3/4;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.4);
+            border: 8px solid white;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .splash-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: linear-gradient(45deg, #FFB6C1, #FFC0CB);
+        }
+
+        .splash-text {
+            margin-top: 30px;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .splash-text h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(255,255,255,0.5), 0 0 30px rgba(255,107,157,0.5); }
+            50% { text-shadow: 0 0 30px rgba(255,255,255,0.8), 0 0 50px rgba(255,107,157,0.8); }
+        }
+
+        .splash-text p {
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
+            font-weight: 300;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Confetti */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: var(--primary-pink);
+            position: absolute;
+            animation: confetti-fall linear forwards;
+            z-index: 10000;
+        }
+
+        @keyframes confetti-fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Content */
+        #main-content {
+            opacity: 0;
+            transition: opacity 1s ease-in;
+            padding-bottom: 50px;
+        }
+
+        #main-content.visible {
+            opacity: 1;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 80px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: "🎂";
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            top: -50px;
+            right: -50px;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        header h1 {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            color: var(--primary-pink);
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 0px var(--secondary-purple);
+            animation: slideInDown 1s ease-out;
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            color: var(--secondary-purple);
+            font-weight: 600;
+            animation: slideInUp 1s ease-out 0.3s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .birthday-icons {
+            margin-top: 30px;
+            font-size: 3rem;
+            animation: slideInUp 1s ease-out 0.6s both;
+        }
+
+        .birthday-icons span {
+            display: inline-block;
+            margin: 0 10px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .birthday-icons span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .birthday-icons span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .birthday-icons span:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .birthday-icons span:nth-child(5) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Section Styles */
+        section {
+            margin: 60px 0;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            box-shadow: 0 10px 40px rgba(255, 107, 157, 0.2);
+            border: 3px solid white;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section h2 {
+            font-family: 'Pacifico', cursive;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--primary-pink);
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        section h2::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-yellow), var(--primary-pink), var(--accent-blue));
+            border-radius: 2px;
+        }
+
+        /* Journey Section */
+        .journey-timeline {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .timeline-item {
+            position: relative;
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .timeline-item:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.3);
+        }
+
+        .timeline-item .year {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-purple);
+            margin-bottom: 15px;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--soft-peach), var(--accent-blue));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .image-placeholder::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .timeline-item p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .about-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #444;
+        }
+
+        .about-text h3 {
+            color: var(--secondary-purple);
+            font-size: 1.8rem;
+            margin: 30px 0 15px;
+            font-weight: 700;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+        }
+
+        .wishes-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .wishes-list li {
+            padding: 15px 20px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, var(--soft-peach), var(--accent-yellow));
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-pink);
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .wishes-list li:hover {
+            transform: translateX(10px);
+        }
+
+        .wishes-list li::before {
+            content: "⭐ ";
+            margin-right: 10px;
+        }
+
+        /* Thanks Section */
+        .thanks-content {
+            text-align: center;
+            font-size: 1.3rem;
+            line-height: 2;
+            color: #444;
+            margin-top: 40px;
+        }
+
+        .thanks-message {
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(168, 230, 207, 0.3));
+            padding: 40px;
+            border-radius: 20px;
+            margin: 30px 0;
+            border: 3px dashed var(--primary-pink);
+        }
+
+        .thanks-message p {
+            margin: 20px 0;
+            font-weight: 600;
+            font-style: italic;
+        }
+
+        .heart-decoration {
+            font-size: 3rem;
+            margin: 20px 0;
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary-pink), var(--secondary-purple));
+            color: white;
+            margin-top: 60px;
+        }
+
+        footer p {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        /* Audio Control */
+        .audio-control {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-pink);
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.5);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .audio-control:hover {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .audio-control.playing {
+            animation: pulse-button 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse-button {
+            0%, 100% { box-shadow: 0 5px 20px rgba(255, 107, 157, 0.5); }
+            50% { box-shadow: 0 5px 30px rgba(255, 107, 157, 0.8); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            section {
+                padding: 30px 20px;
+            }
+
+            .timeline-item {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" onclick="startExperience()">
+        <div class="splash-image-container">
+            <img src="1.jpg" alt="Trang" class="splash-image" />
+        </div>
+        <div class="splash-text">
+            <h1>Nguyễn Kiều Trang</h1>
+            <p>Nhấn để bắt đầu 🎉</p>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="birthday-music" loop>
+        <source src="HPBD.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Main Content -->
+    <div id="main-content">
+        <header>
+            <h1>Chúc Mừng Sinh Nhật</h1>
+            <p class="header-subtitle">Nguyễn Kiều Trang - 03/01/1997 🎂</p>
+            <div class="birthday-icons">
+                <span>🎈</span>
+                <span>🎉</span>
+                <span>🎁</span>
+                <span>🎂</span>
+                <span>🎊</span>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- Section 1: Journey -->
+            <section id="journey">
+                <h2>🌟 Hành Trình Của Trang</h2>
+                <div class="journey-timeline">
+                    <div class="timeline-item">
+                        <div class="year">1997</div>
+                        <div><img src="2.jpg" alt="Trang" class="splash-image" />👶</div>
+                        <p>Chào đời ngày 03/01/1997 - Một thiên thần nhỏ xuất hiện!</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">2000s</div>
+                        <div><img src="3.jpg" alt="Trang" class="splash-image" />🎒</div>
+                        <p>Những năm tháng tuổi thơ đầy kỷ niệm và niềm vui</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">2010s</div>
+                        <div><img src="4.jpg" alt="Trang" class="splash-image" />🎓</div>
+                        <p>Trưởng thành và khám phá thế giới xung quanh</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">2020s</div>
+                        <div><img src="5.jpg" alt="Trang" class="splash-image" />⭐</div>
+                        <p>Tỏa sáng với những ước mơ và thành tựu</p>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="year">2026</div>
+                        <div><img src="6.jpg" alt="Trang" class="splash-image" />🎂</div>
+                        <p>Tuổi 29 - Bước sang một chương mới tuyệt vời!</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: About & Wishes -->
+            <section id="about">
+                <h2>💖 Về Trang Hôm Nay</h2>
+                <div class="about-content">
+                    <div class="about-text">
+                        <h3>Bản thân tôi</h3>
+                        <p>Tôi là Nguyễn Kiều Trang, một cô gái yêu cuộc sống và luôn hướng về những điều tích cực. Sau 29 năm, tôi tự hào về hành trình mình đã đi qua và những gì mình đã trở thành.</p>
+                        
+                        <p>Mỗi ngày là một món quà, và hôm nay - ngày sinh nhật của mình - là dịp để tôi nhìn lại và cảm ơn tất cả những gì cuộc sống đã ban tặng.</p>
+                    </div>
+                    <div class="about-text">
+                        <h3>Ước mơ tương lai</h3>
+                        <ul class="wishes-list">
+                            <li>Luôn khỏe mạnh và hạnh phúc mỗi ngày</li>
+                            <li>Phát triển bản thân và đạt được những mục tiêu mới</li>
+                            <li>Tạo được nhiều kỷ niệm đẹp cùng gia đình và bạn bè</li>
+                            <li>Lan tỏa năng lượng tích cực đến mọi người xung quanh</li>
+                            <li>Biến những ước mơ thành hiện thực</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: Thanks -->
+            <section id="thanks">
+                <h2>💝 Lời Cảm Ơn</h2>
+                <div class="thanks-content">
+                    <div class="thanks-message">
+                        <div class="heart-decoration">❤️</div>
+                        <p>Cảm ơn gia đình đã luôn yêu thương, chở che và là chỗ dựa vững chắc cho con!</p>
+                        
+                        <p>Cảm ơn tất cả những người bạn thân yêu đã luôn ở bên, chia sẻ và đồng hành cùng mình trong suốt hành trình!</p>
+                        
+                        <p>Mỗi lời chúc, mỗi món quà, mỗi nụ cười mà các bạn dành cho mình trong ngày đặc biệt này đều là những kho báu vô giá trong trái tim mình!</p>
+                        
+                        <p>Mình yêu các bạn rất nhiều! 💕</p>
+                        
+                        <div class="heart-decoration">🎉 🎂 🎈</div>
+                    </div>
+                    
+                    <p style="font-size: 1.5rem; margin-top: 30px; color: var(--primary-pink); font-weight: 700;">
+                        Cảm ơn tất cả vì đã làm cho sinh nhật này trở nên thật đặc biệt!
+                    </p>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>🎂 Sinh nhật lần thứ 29 - 03/01/2026 🎂</p>
+            <p style="margin-top: 10px; font-size: 1rem; opacity: 0.9;">Made with 💖 for Nguyễn Kiều Trang</p>
+        </footer>
+    </div>
+
+    <!-- Audio Control Button -->
+    <div class="audio-control playing" id="audio-control" onclick="toggleMusic()">
+        🎵
+    </div>
+
+    <script>
+        const splashScreen = document.getElementById('splash-screen');
+        const mainContent = document.getElementById('main-content');
+        const birthdayMusic = document.getElementById('birthday-music');
+        const audioControl = document.getElementById('audio-control');
+        let musicPlaying = false;
+
+        function createConfetti() {
+            const colors = ['#FF6B9D', '#C44569', '#A8E6CF', '#FFD93D', '#FFC4D6'];
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    confetti.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => confetti.remove(), 5000);
+                }, i * 30);
+            }
+        }
+
+        function startExperience() {
+            // Hide splash screen
+            splashScreen.classList.add('hidden');
+            
+            // Show main content
+            setTimeout(() => {
+                mainContent.classList.add('visible');
+            }, 500);
+            
+            // Start music
+            birthdayMusic.play().then(() => {
+                musicPlaying = true;
+                audioControl.classList.add('playing');
+            }).catch(err => {
+                console.log('Autoplay prevented:', err);
+            });
+            
+            // Create confetti
+            createConfetti();
+            
+            // Add continuous confetti every 5 seconds
+            setInterval(createConfetti, 5000);
+        }
+
+        function toggleMusic() {
+            if (musicPlaying) {
+                birthdayMusic.pause();
+                audioControl.textContent = '🔇';
+                audioControl.classList.remove('playing');
+                musicPlaying = false;
+            } else {
+                birthdayMusic.play();
+                audioControl.textContent = '🎵';
+                audioControl.classList.add('playing');
+                musicPlaying = true;
+            }
+        }
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 1s ease-out';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
